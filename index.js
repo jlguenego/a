@@ -28,8 +28,8 @@ const resources = {
             await execute('git commit -m ' + message);
         },
         delete: async function (id) {
-            await execute('git add *');
-            await execute('git commit -m ' + message);
+            // remove last commit.
+            await execute('git reset --hard HEAD~1');
         },
     },
     'modified': {
