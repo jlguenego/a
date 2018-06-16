@@ -58,13 +58,13 @@ async function execute(cmd) {
     console.log('finished');
     console.log(stdout);
     console.error(stderr);
-    return;
 }
 
 async function handle(spec) {
     if (typeof spec === 'string') {
         const cmd = spec + ' ' + args.join(' ');
         await execute(cmd);
+        return;
     }
     // spec should be a async function.
     await spec(args);
