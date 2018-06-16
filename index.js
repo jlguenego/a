@@ -23,7 +23,17 @@ const resources = {
     'commit': {
         list: 'git log',
         get: 'git show',
-        create: 'git commit -m '
+        create: async function (message) {
+            await execute('git add *');
+            await execute('git commit -m ' + message);
+        },
+        delete: async function (id) {
+            await execute('git add *');
+            await execute('git commit -m ' + message);
+        },
+    },
+    'modified': {
+        list: 'git status'
     }
 };
 
@@ -35,22 +45,28 @@ if (argv._.length === 0) {
     return;
 }
 
-const cmd = resources[resource][verb] + ' ' + args.join(' ');
-if (!cmd) {
-    console.log('No associated command for command:', cmd);
+if (!(resources[resource] && resources[resource][verb])) {
+    console.log('No associated command for:', cmd);
     process.exit(1);
 }
 
-
-
 async function execute(cmd) {
     console.log('executing:', cmd);
-
     const { stdout, stderr } = await exec(cmd);
     console.log('finished');
     console.log(stdout);
     console.error(stderr);
-    return 0;
+    return;
 }
 
-execute(cmd);
+async function handle(spec) {
+    if (typeof spec === 'string') {
+        const cmd = spec + ' ' + args.join(' ');
+        await execute(cmd);
+    }
+    // spec should be a async function.
+    await spec(args);
+
+}
+
+handle(resources[resource][verb]);
