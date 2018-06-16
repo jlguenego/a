@@ -1,0 +1,26 @@
+{
+  "name": "@jlguenego/a",
+  "version": "0.0.1",
+  "description": "Intuitive command line utility.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlguenego/a.git"
+  },
+  "keywords": [
+    "DX",
+    "MSDOS",
+    "powershell",
+    "bash",
+    "sh"
+  ],
+  "author": "Jean-Louis GUENEGO <jlguenego@gmail.com> (https://jlg-consulting.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlguenego/a/issues"
+  },
+  "homepage": "https://github.com/jlguenego/a#readme"
+}
