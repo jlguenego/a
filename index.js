@@ -15,5 +15,29 @@ if (argv.h || argv.help) {
     return;
 }
 
-console.log('Available resources');
+const resources = {
+    'commit': {
+        list: 'git log',
+    }
+};
 
+const [resource, verb = 'list'] = argv._;
+
+if (argv._.length === 0) {
+    console.log('Available resources:\n');
+    console.log(Object.keys(resources).join('\n'));
+    return;
+}
+
+const cmd = resources[resource][verb];
+if (!cmd) {
+    console.log('No associated command for command:', cmd);
+    process.exit(1);
+}
+
+process.exit(execute(cmd));
+
+function execute(cmd) {
+    console.log('executing:', cmd);
+    return 1;
+}
