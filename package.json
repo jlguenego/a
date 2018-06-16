@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/jlguenego/a/issues"
   },
-  "homepage": "https://github.com/jlguenego/a#readme"
+  "homepage": "https://github.com/jlguenego/a#readme",
+  "bin": {
+    "a": "./index.js"
+  }
 }
