@@ -22,7 +22,8 @@ if (argv.h || argv.help) {
 const resources = {
     'commit': {
         list: 'git log',
-        get: 'git show'
+        get: 'git show',
+        create: 'git commit -m '
     }
 };
 
