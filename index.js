@@ -33,11 +33,19 @@ const resources = {
                 await execute('git reset --hard HEAD~1');
             }
         },
+        update: async function (id, message) {
+            console.log('id', id);
+            if (id === 'last') {
+                await execute('git add *');
+                await execute(`git commit --amend -m "${message}"`);
+            }
+        },
     },
     'modified': {
         list: 'git status'
     }
 };
+
 
 const [resource, verb = 'list', ...args] = argv._;
 
@@ -58,16 +66,16 @@ async function execute(cmd) {
     console.log('finished');
     console.log(stdout);
     console.error(stderr);
-    return;
 }
 
 async function handle(spec) {
     if (typeof spec === 'string') {
         const cmd = spec + ' ' + args.join(' ');
         await execute(cmd);
+        return;
     }
     // spec should be a async function.
-    await spec(args);
+    await spec(...args);
 
 }
 
