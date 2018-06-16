@@ -34,4 +34,4 @@ if (!(resources[resource] && resources[resource][verb])) {
     process.exit(1);
 }
 
-handle(resources[resource][verb]);
+handle(resources[resource][verb], args);

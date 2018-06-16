@@ -9,7 +9,7 @@ async function execute(cmd) {
     console.error(stderr);
 }
 
-async function handle(spec) {
+async function handle(spec, args) {
     if (typeof spec === 'string') {
         const cmd = spec + ' ' + args.join(' ');
         await execute(cmd);
