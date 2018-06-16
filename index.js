@@ -2,6 +2,10 @@
 
 const argv = require('minimist')(process.argv.slice(2));
 const package = require('./package');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
+
 
 if (argv.v || argv.version) {
     console.log(package.version);
@@ -18,10 +22,11 @@ if (argv.h || argv.help) {
 const resources = {
     'commit': {
         list: 'git log',
+        get: 'git show'
     }
 };
 
-const [resource, verb = 'list'] = argv._;
+const [resource, verb = 'list', ...args] = argv._;
 
 if (argv._.length === 0) {
     console.log('Available resources:\n');
@@ -29,15 +34,22 @@ if (argv._.length === 0) {
     return;
 }
 
-const cmd = resources[resource][verb];
+const cmd = resources[resource][verb] + ' ' + args.join(' ');
 if (!cmd) {
     console.log('No associated command for command:', cmd);
     process.exit(1);
 }
 
-process.exit(execute(cmd));
 
-function execute(cmd) {
+
+async function execute(cmd) {
     console.log('executing:', cmd);
-    return 1;
+
+    const { stdout, stderr } = await exec(cmd);
+    console.log('finished');
+    console.log(stdout);
+    console.error(stderr);
+    return 0;
 }
+
+execute(cmd);
