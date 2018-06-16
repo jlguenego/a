@@ -28,8 +28,10 @@ const resources = {
             await execute('git commit -m ' + message);
         },
         delete: async function (id) {
-            // remove last commit.
-            await execute('git reset --hard HEAD~1');
+            if (id === 'last') {
+                // remove last commit.
+                await execute('git reset --hard HEAD~1');
+            }
         },
     },
     'modified': {
