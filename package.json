@@ -25,5 +25,8 @@
   "homepage": "https://github.com/jlguenego/a#readme",
   "bin": {
     "a": "./index.js"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
   }
 }
