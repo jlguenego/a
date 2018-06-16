@@ -2,10 +2,9 @@
 
 const argv = require('minimist')(process.argv.slice(2));
 const package = require('./package');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const { handle, execute } = require('./core');
 
-
+const gitResources = require('./git-resources');
 
 if (argv.v || argv.version) {
     console.log(package.version);
@@ -19,32 +18,7 @@ if (argv.h || argv.help) {
     return;
 }
 
-const resources = {
-    'commit': {
-        list: 'git log',
-        get: 'git show',
-        create: async function (message) {
-            await execute('git add *');
-            await execute('git commit -m ' + message);
-        },
-        delete: async function (id) {
-            if (id === 'last') {
-                // remove last commit.
-                await execute('git reset --hard HEAD~1');
-            }
-        },
-        update: async function (id, message) {
-            console.log('id', id);
-            if (id === 'last') {
-                await execute('git add *');
-                await execute(`git commit --amend -m "${message}"`);
-            }
-        },
-    },
-    'modified': {
-        list: 'git status'
-    }
-};
+const resources = Object.assign({}, gitResources);
 
 
 const [resource, verb = 'list', ...args] = argv._;
@@ -58,25 +32,6 @@ if (argv._.length === 0) {
 if (!(resources[resource] && resources[resource][verb])) {
     console.log('No associated command for:', cmd);
     process.exit(1);
-}
-
-async function execute(cmd) {
-    console.log('executing:', cmd);
-    const { stdout, stderr } = await exec(cmd);
-    console.log('finished');
-    console.log(stdout);
-    console.error(stderr);
-}
-
-async function handle(spec) {
-    if (typeof spec === 'string') {
-        const cmd = spec + ' ' + args.join(' ');
-        await execute(cmd);
-        return;
-    }
-    // spec should be a async function.
-    await spec(...args);
-
 }
 
 handle(resources[resource][verb]);
