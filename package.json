@@ -1,6 +1,6 @@
 {
   "name": "@jlguenego/a",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Intuitive command line utility.",
   "main": "index.js",
   "scripts": {
