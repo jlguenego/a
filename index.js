@@ -1,37 +1,59 @@
 #! /usr/bin/env node
 
-const argv = require('minimist')(process.argv.slice(2));
+const program = require('commander');
 const package = require('./package');
-const { handle, execute } = require('./core');
+const { handle, execute, manageVerbSynonym, disambiguate, list, buildResources, printUnderstoodCommand } = require('./core');
 
-const gitResources = require('./git-resources');
+program
+	.name('a')
+	.usage('[options] <resource> [<verb> [<args...>]]')
 
-if (argv.v || argv.version) {
-    console.log(package.version);
-    return;
+	.option('-s, --simulation', 'simulation mode.')
+	.option('-c, --core', 'list hidden core resources.')
+	.option('-m, --mode [newmode]', 'print mode or set [newmode]\n')
+	.on('--help', () => {
+		console.log(`
+
+  Getting started
+
+    +----------------+
+    |$> a .tutorial  |
+    +----------------+
+
+License: ISC
+Author: Jean-Louis GUENEGO <jlguenego@gmail.com> (https://jlg-consulting.com)
+
+`)
+	})
+	.version(package.version, '-v, --version')
+	;
+
+program.parse(process.argv);
+program.resources = buildResources();
+
+if (program.mode === true) {
+	handle(program, '.mode', 'list', []);
+	return;
+}
+if (typeof program.mode === 'string') {
+	handle(program, '.mode', 'select', [program.mode]);
+	return;
 }
 
-if (argv.h || argv.help) {
-    console.log(`Usage: a [-v] [-h] <resource> <verb> <param>
--v: version
--h: help`);
-    return;
+let defaultResource = '.resource';
+if (program.core) {
+	defaultResource = '.hidden-resource';
 }
 
-const resources = Object.assign({}, gitResources);
+// console.log(program);
 
 
-const [resource, verb = 'list', ...args] = argv._;
 
-if (argv._.length === 0) {
-    console.log('Available resources:\n');
-    console.log(Object.keys(resources).join('\n'));
-    return;
+let [r = defaultResource, v = 'list', ...args] = program.rawArgs.slice(program.simulation || program.core ? 3 : 2);
+const resource = disambiguate('resource', r, program.resources);
+const verb = manageVerbSynonym(v);
+
+if (resource !== r || verb != v || program.args.length > 0) {
+	console.log('Command executed: a', resource, verb, ...args, '\n');
 }
-
-if (!(resources[resource] && resources[resource][verb])) {
-    console.log('No associated command for:', cmd);
-    process.exit(1);
-}
-
-handle(resources[resource][verb], args);
+handle(program, resource, verb, args);

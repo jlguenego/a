@@ -1,6 +1,6 @@
 {
   "name": "@jlguenego/a",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "Intuitive command line utility.",
   "main": "index.js",
   "scripts": {
@@ -12,10 +12,12 @@
   },
   "keywords": [
     "DX",
+    "CLI",
     "MSDOS",
     "powershell",
     "bash",
-    "sh"
+    "sh",
+    "zsh"
   ],
   "author": "Jean-Louis GUENEGO <jlguenego@gmail.com> (https://jlg-consulting.com)",
   "license": "ISC",
@@ -27,6 +29,7 @@
     "a": "./index.js"
   },
   "dependencies": {
-    "minimist": "^1.2.0"
+    "commander": "^2.15.1",
+    "rimraf": "^2.6.2"
   }
 }
