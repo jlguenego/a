@@ -126,6 +126,13 @@ const resources = {
             // annotated tag
             await execute(`git tag -a "${tagname}" -m "${message}"`);
         },
+        async retrieve(tagname) {
+            if (!tagname) {
+                throw new Error('Cannot retrieve tag without tagname');
+            }
+            // retrieve annotated tag
+            await execute(`git show "${tagname}"`);
+        },
         async delete(name) {
             // check that name/.git exists.
             try {
