@@ -133,18 +133,11 @@ const resources = {
             // retrieve annotated tag
             await execute(`git show "${tagname}"`);
         },
-        async delete(name) {
-            // check that name/.git exists.
-            try {
-                const stat = fs.statSync(`${name}/.git`);
-                if (!stat.isDirectory()) {
-                    throw 'not a directory';
-                }
-                await util.promisify(rimraf)(name);
-            } catch (e) {
-                console.error(`Error: ${name} is not a git repository`);
+        async delete(tagname) {
+            if (!tagname) {
+                throw new Error('Cannot delete tag without tagname');
             }
-            
+            await execute(`git tag -d "${tagname}"`);
         },
     },
     lighttag: {
