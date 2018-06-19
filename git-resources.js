@@ -5,7 +5,7 @@ const util = require('util');
 
 const resources = {
     commit: {
-        list: 'git log --reverse',
+        list: 'git log --reverse --pretty=oneline',
         retrieve: 'git show',
         create: async function (message = 'ok') {
             await execute('git add *');
@@ -119,12 +119,12 @@ const resources = {
             }
             await execute(`git tag`);
         },
-        async create(tagname, message = 'ok') {
+        async create(tagname, message = 'ok', commit = '') {
             if (!tagname) {
                 throw new Error('Cannot create tag without tagname');
             }
             // annotated tag
-            await execute(`git tag -a "${tagname}" -m "${message}"`);
+            await execute(`git tag -a "${tagname}" -m "${message}" ${commit}`);
         },
         async retrieve(tagname) {
             if (!tagname) {
@@ -145,6 +145,15 @@ const resources = {
                 console.error(`Error: ${name} is not a git repository`);
             }
             
+        },
+    },
+    lighttag: {
+        async create(tagname) {
+            if (!tagname) {
+                throw new Error('Cannot create tag lightweight without tagname');
+            }
+            // annotated tag
+            await execute(`git tag "${tagname}"`);
         },
     }
 };
