@@ -110,6 +110,35 @@ const resources = {
             }
             
         },
+    },
+    tag: {
+        async list(filter) {
+            if (filter) {
+                await execute(`git tag -l "${filter}"`);
+                return;
+            }
+            await execute(`git tag`);
+        },
+        async create(tagname, message = 'ok') {
+            if (!tagname) {
+                throw new Error('Cannot create tag without tagname');
+            }
+            // annotated tag
+            await execute(`git tag -a "${tagname}" -m "${message}"`);
+        },
+        async delete(name) {
+            // check that name/.git exists.
+            try {
+                const stat = fs.statSync(`${name}/.git`);
+                if (!stat.isDirectory()) {
+                    throw 'not a directory';
+                }
+                await util.promisify(rimraf)(name);
+            } catch (e) {
+                console.error(`Error: ${name} is not a git repository`);
+            }
+            
+        },
     }
 };
 
