@@ -34,7 +34,7 @@ module.exports = {
     a branch push
         Push the current git branch to the remote: git push [remote=origin]
 `),
-    list: 'git branch',
+    list: 'git branch -vv',
     create: 'git branch -- <name>',
     retrieve: 'git rev-parse <name>',
     select: 'git checkout <name>',
