@@ -8,37 +8,8 @@ const resources = {
     modified: require('./modified'),
     branch: require('./branch'),
     rbranch: require('./rbranch'),
-    remote: {
-        list: 'git remote -v',
-        empty: notSignificant,
-        async create(name, url) {
-            // Ex: a remote create upstream https://github.com/jlguenego/a.git
-            await execute(`git remote add "${name}" "${url}"`);
-        },
-        retrieve: notSignificant,
-        update: notSignificant,
-        async delete(name) {
-            await execute(`git remote remove "${name}"`);
-        },
-    },
-    repository: {
-        async create(name) {
-            await execute(`git init ${name}`);
-        },
-        async delete(name) {
-            // check that name/.git exists.
-            try {
-                const stat = fs.statSync(`${name}/.git`);
-                if (!stat.isDirectory()) {
-                    throw 'not a directory';
-                }
-                await util.promisify(rimraf)(name);
-            } catch (e) {
-                console.error(`Error: ${name} is not a git repository`);
-            }
-
-        },
-    },
+    remote: require('./remote'),
+    repository: require('./repository'),
     tag: require('./tag'),
     lighttag: {
         async create(tagname) {
