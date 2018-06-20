@@ -17,7 +17,7 @@ function buildResources() {
         });
 
 
-        Object.assign(resources, require('./core-resources'));
+        Object.assign(resources, require('./core-resources/main.js'));
         return resources;
     } catch (e) {
         console.error('Cannot build the resources, there is something wrong with the config. error: ', e);

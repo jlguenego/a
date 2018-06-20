@@ -1,5 +1,5 @@
-const { handle, execute, list, buildResources, log } = require('./core');
-const { getConfig, setConfig, initConfig } = require('./config');
+const { handle, execute, list, buildResources, log } = require('../core');
+const { getConfig, setConfig, initConfig } = require('../config');
 
 const resources = {
     '.resource': {
