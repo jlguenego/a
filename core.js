@@ -58,7 +58,7 @@ async function handle(program, resource, verb, args) {
     let procedure;
     if (typeof resources[resource][verb] === 'string') {
         procedure = async function () {
-            const cmd = resources[resource][verb] + args.map(a => `"${a}"`).join(' ');
+            const cmd = parseCommand(resources[resource][verb], args);
             await execute(cmd);
         };
     } else {
@@ -71,6 +71,12 @@ async function handle(program, resource, verb, args) {
     }
     await procedure(...args);
     printBeginnerInfo(program, resources, resource, verb, args);
+}
+
+function parseCommand(str, args) {
+    let i = 0;
+    const result = str.replace(/<(.*?)>/g, () => `"${args[i++]}"`);
+    return result;
 }
 
 function printBeginnerInfo(program, resources, resource, verb, args) {
@@ -188,4 +194,5 @@ module.exports = {
     buildResources,
     notSignificant,
     log,
+    parseCommand,
 };

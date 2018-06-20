@@ -11,6 +11,9 @@ module.exports = {
     a branch create <name>
         Create a git branch: git branch -- <name>
     
+    a branch retrieve <name>
+        Retrieve a git branch: git rev-parse <name>
+
     a branch delete <name>
         Delete a git branch: git branch -d -- <name>
 
@@ -26,12 +29,7 @@ module.exports = {
         Rename a git branch: git branch -m <oldname> <newname>
 `),
     list: 'git branch',
-    async create(name) {
-        if (!name) {
-            throw new Error('need a name');
-        }
-        await execute(`git branch -- "${name}"`);
-    },
+    create: 'git branch -- <name>',
     async retrieve(name) {
         await execute(`git rev-parse "${name}"`);
     },
