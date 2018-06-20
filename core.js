@@ -16,7 +16,6 @@ function buildResources() {
             }
         });
 
-
         Object.assign(resources, require('./core-resources/main.js'));
         return resources;
     } catch (e) {
@@ -181,13 +180,11 @@ function list(prefix, array) {
     array.sort().forEach(i => console.log('a ' + i));
 }
 
-
 function notSignificant() {
     console.log('Sorry. Not implemented. Because it is not significant for this resource.');
 }
 
 const log = str => () => console.log(str);
-
 
 module.exports = {
     list,

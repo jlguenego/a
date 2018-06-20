@@ -27,6 +27,9 @@ module.exports = {
 
     a branch rename <oldname> <newname>
         Rename a git branch: git branch -m <oldname> <newname>
+    
+    a branch merge <name>
+        Merge a git branch to the current one: git merge <name>
 `),
     list: 'git branch',
     create: 'git branch -- <name>',
@@ -34,4 +37,5 @@ module.exports = {
     select: 'git checkout <name>',
     update: 'git branch -m <oldname> <newname>',
     delete: 'git branch -d -- <name>',
+    merge: 'git merge <name>',
 };

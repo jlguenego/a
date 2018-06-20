@@ -2,87 +2,115 @@ const { log } = require('../core');
 
 module.exports = {
     list: log(`Welcome to the tutorial!
-There is 3 parts.
++----------------+
+|Table of Content|
++----------------+
 
-To access one of them, please type a long or abbreviated form:
+Note: to access the different part, type:
+$> a .t r <title>
+with <title> below:
 
-a .tutorial retrieve 1
-a .tuto ret 2
-a .t r 3
+
+- 1_mode
+- 2_config
+- 3_git
+
 
 `),
 
     retrieve: (name) => {
-        if (name === '1') {
+        if (name === '1_mode') {
             console.log(`
-TUTORIAL Part #1
-================
+TUTORIAL Part #1 : Mode
+=======================
 
-
-Prerequisite: git must be installed.
-
-1) List the '.mode' core resource:
+1) List the mode
 $> a -m
 
-2) Select the git mode
+In fact this is a shortcut to the command:
+$> a .mode list
+
+2) Select a mode (for instance docker)
+$> a -m docker
+$> a -m
+
+3) Update the mode to 'git'.
 $> a -m git
 
-3) What resources you can use (in git mode):
+4) List the resources you can use in git mode:
 $> a
+
+That's it!
 
 `);
         }
-        if (name === '2') {
+        if (name === '2_config') {
             console.log(`
-TUTORIAL Part #2
-================
-Prerequisite: do the tutorial part 1.
+TUTORIAL Part #2: Config
+========================
+Prerequisite: 
+ - Having git installed.
+ - Understood tutorial 1_mode
 
-1) Create a git repository
-$> a repository create myproject
-$> cd myproject
 
-2) Create a file and commit it.
-$> echo coucou > toto.txt
-$> a commit create ok
+1) Show all the core resources:
+$> a -c
 
-3) List the branches
-$> a branch
+2) Show the config file location and content:
+$> a .config
+You can do shorter because there is no conflict with another resource name:
+$> a .c
 
-4) Check the documentation for the branch resource
-$> a branch help
+3) Check the help regarding the .config resource:
+a .c help
 
-Note: you can also use -h instead of help.
+4) Set a new value for the beginner property.
+false means no more beginner message
+$> a .c set beginner false
 
-5) Create a new branch 'devel'
-$> a branch create devel
+5) You should not see the beginner message
+$> a
 
-6) Check the branch is created.
-$> a b
+6) Put back the beginner property
+$> a .c set beginner true
+
+5) You should see the beginner message
+$> a
 
  `);
         }
-        if (name === '3') {
+        if (name === '3_git') {
             console.log(`
-TUTORIAL Part #3
-================
-Prerequisite: do the tutorial part 1 and 2.
+TUTORIAL Part #3: Git
+=====================
+Prerequisite: 
+ - Having git installed.
+ - Understood tutorial 1_mode and 2_config
 
-1) select the default branch to 'devel'
-$> a b s devel
+1) Create a new repository
+$> a repository create myproject
+$> cd myproject
 Note: you do not need to type the entire resource or verb.
 Just indicate enough characters to disambiguate.
 
-2) select the default branch to 'master' using abreviation.
+2) Get the branch list
+$> a branch
+
+3) Add a file and commit it.
+$> echo coucou > toto.txt
+$> a commit create
+
+3) Create a new branch
+$> a b c titi
+
+4) Select the branch titi and commit something.
+$> a b s titi
+$> echo coucou > tata.txt
+$> a c c
+
+5) Merge the branch titi to master
 $> a b s master
-
-Note: this is equivalent to "a branch select master".
-
-3) remove the 'devel' branch using abbreviation.
-$> a b d devel
-
-4) Check that the branch is removed
-$> a b
+$> a b m titi
 
 5) Congratulations! That is it!
 `);
