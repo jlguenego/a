@@ -3,6 +3,7 @@
 const program = require('commander');
 const package = require('./package');
 const { handle, execute, manageVerbSynonym, disambiguate, list, buildResources, printUnderstoodCommand } = require('./core');
+const { getConfig } = require('./config');
 
 program
 	.name('a')
@@ -30,6 +31,7 @@ Author: Jean-Louis GUENEGO <jlguenego@gmail.com> (https://jlg-consulting.com)
 
 program.parse(process.argv);
 program.resources = buildResources();
+program.config = getConfig();
 
 if (program.mode === true) {
 	handle(program, '.mode', 'list', []);
@@ -53,7 +55,5 @@ let [r = defaultResource, v = 'list', ...args] = program.rawArgs.slice(program.s
 const resource = disambiguate('resource', r, program.resources);
 const verb = manageVerbSynonym(v);
 
-if (resource !== r || verb != v || program.args.length > 0) {
-	console.log('Command executed: a', resource, verb, ...args, '\n');
-}
+
 handle(program, resource, verb, args);

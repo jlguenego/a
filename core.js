@@ -11,7 +11,7 @@ function buildResources() {
         plugins.forEach(key => {
             try {
                 Object.assign(resources, require(config.plugins[key]));
-            } catch (e) { 
+            } catch (e) {
                 console.error(`problem trying to load plugin ${key} ${config.plugins[key]}`, e);
             }
         });
@@ -47,8 +47,7 @@ async function handle(program, resource, verb, args) {
         process.exit(1);
     }
     if (verb === 'help' && !resources[resource].help) {
-        console.log(`Implemented verb for ${resource}:`);
-        printHateoas(resources, resource);
+        printDefaultHelp(program, resources, resource, verb, args);
         return;
     }
     if (!resources[resource][verb]) {
@@ -57,7 +56,7 @@ async function handle(program, resource, verb, args) {
     }
     let procedure;
     if (typeof resources[resource][verb] === 'string') {
-        procedure = async function() {
+        procedure = async function () {
             const cmd = resources[resource][verb] + args.map(a => `"${a}"`).join(' ');
             await execute(cmd);
         };
@@ -70,20 +69,39 @@ async function handle(program, resource, verb, args) {
         return;
     }
     await procedure(...args);
-    if (verb === 'list') {
-        // hateoas
-        console.log('links:')
-        printHateoas(resources, resource);
-    }
+    printVerboseInfo(program, resources, resource, verb, args);
 }
 
-function printHateoas(resources, resource) {
+function printVerboseInfo(program, resources, resource, verb, args) {
+    if (program.config.verbose !== 'true' || verb === 'help') {
+        return;
+    }
+    console.log('\n\n\n-- verbose info start');
+    console.log('Command executed: a', resource, verb, ...args);
+    console.log('To get help: a', resource, 'help');
+
     const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
     const crudVerbs = crudle.filter(v => Object.keys(resources[resource]).includes(v));
     const otherVerbs = Object.keys(resources[resource]).filter(v => !crudle.includes(v)).sort();
-    crudVerbs.forEach(verb => console.log(`a ${resource} ${verb}`));
-    console.log();
-    otherVerbs.forEach(verb => console.log(`a ${resource} ${verb}`));
+    console.log('REST verbs: ' + crudVerbs.join(' | ') + '\n');
+    if (otherVerbs.length > 0) {
+        console.log('Other verbs: ' + otherVerbs.join(' | ') + '\n');
+    }
+    console.log('-- verbose info end');
+}
+
+function printDefaultHelp(program, resources, resource, verb, args) {
+    console.log('Default help for resource', resource);
+    const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
+    const crudVerbs = crudle.filter(v => Object.keys(resources[resource]).includes(v));
+    const otherVerbs = Object.keys(resources[resource]).filter(v => !crudle.includes(v)).sort();
+    console.log('REST verbs: ' + crudVerbs.join(' | '));
+    if (otherVerbs.length > 0) {
+        console.log('Other verbs: ' + otherVerbs.join(' | '));
+    } else {
+        console.log('No other verb.');
+    }
+    console.log(`Syntax: a ${resource} <verb> ...`);
 }
 
 /**
@@ -105,6 +123,8 @@ function manageVerbSynonym(verb) {
         ['help', '-h'],
 
         ['select'],
+        ['get'],
+        ['set']
     ];
     const verbs = verbMatrix.reduce((acc, n) => acc.concat(n), []);
     verb = disambiguate('verb', verb, verbs);

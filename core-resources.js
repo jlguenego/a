@@ -109,7 +109,16 @@ ${JSON.stringify(getConfig(), null, 4)}
             console.log('reset the config file to its default.')
             initConfig();
             resources['.config'].list();
-        }
+        },
+        get: (name) => {
+            const config = getConfig();
+            console.log(config[name])
+        },
+        set: (name, value) => {
+            const config = getConfig();
+            config[name] = value;
+            setConfig(config);
+        },
     },
     '.tutorial': {
         list: log(`Welcome to the tutorial!
