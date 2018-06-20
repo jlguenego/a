@@ -7,7 +7,6 @@ module.exports = {
     async create(name) {
         await execute(`git init ${name}`);
     },
-    retrieve: 'git remote show <repository>',
     async delete(name) {
         // check that name/.git exists.
         try {
