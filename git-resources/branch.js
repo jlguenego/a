@@ -30,6 +30,9 @@ module.exports = {
     
     a branch merge <name>
         Merge a git branch to the current one: git merge <name>
+    
+    a branch push
+        Push the current git branch to the remote: git push [remote=origin]
 `),
     list: 'git branch',
     create: 'git branch -- <name>',
@@ -38,4 +41,5 @@ module.exports = {
     update: 'git branch -m <oldname> <newname>',
     delete: 'git branch -d -- <name>',
     merge: 'git merge <name>',
+    push: 'git push [remote=origin]',
 };

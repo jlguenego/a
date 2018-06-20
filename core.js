@@ -78,7 +78,20 @@ async function handle(program, resource, verb, args) {
 
 function parseCommand(str, args) {
     let i = 0;
-    const result = str.replace(/<(.*?)>/g, () => `"${args[i++]}"`);
+    const result = str.replace(/([<\[].*?[>\]])/g, (match) => {
+        if (match.startsWith('<')) {
+            return `"${args[i++]}"`;
+        }
+        if (match.startsWith('[')) {
+            if (i in args) {
+                return `"${args[i++]}"`;
+            } else {
+                const defaultVal = match.match(/^\[.*?=.*?\]$/) ? match.replace(/^\[.*?=(.*?)\]$/, '$1') : '';
+                return defaultVal;
+            }
+        }
+        throw new Error('cannot parse command', str, args);
+    });
     return result;
 }
 
@@ -149,6 +162,7 @@ function manageVerbSynonym(program, resource, verb) {
         ['get'],
         ['set'],
         ['merge'],
+        ['push'],
     ];
     const verbs = verbMatrix.reduce((acc, n) => acc.concat(n), []).filter(v => Object.keys(program.resources[resource]).includes(v));
     verb = disambiguate('verb', verb, verbs);
