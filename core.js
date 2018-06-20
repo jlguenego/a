@@ -32,7 +32,8 @@ async function execute(cmd) {
         console.log(stdout);
         console.error(stderr);
     } catch (e) {
-        console.error(e);
+        console.log(e.stdout);
+        console.error(e.stderr);
         throw new Error('Stop!!!');
     }
 }
