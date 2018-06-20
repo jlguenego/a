@@ -4,48 +4,8 @@ const rimraf = require('rimraf');
 const util = require('util');
 
 const resources = {
-    commit: {
-        list: 'git log --reverse --pretty=oneline',
-        async retrieve(commitId) {
-            if (!commitId) {
-                throw new Error('Cannot retrieve tag without commitId');
-            }
-            await execute(`git show --format=fuller "${commitId}"`);
-        },
-        create: async function (message = 'ok') {
-            await execute('git add .');
-            await execute(`git commit -m "${message}"`);
-        },
-        delete: async function (id, message = 'commit') {
-            if (id === 'last') {
-                // remove last commit.
-                await execute('git reset --hard HEAD~1');
-            }
-            id = +id;
-            if (id >= 0) {
-                await execute(`git reset --soft HEAD~${id} && git commit -m "${message}"`);
-            }
-        },
-        update: async function (id, message) {
-            console.log('id', id);
-            if (id === 'last') {
-                await execute('git add *');
-                await execute(`git commit --amend -m "${message}"`);
-            }
-        },
-    },
-    modified: {
-        list: 'git status',
-        empty: 'git reset --hard',
-        delete: async function (file) {
-            await execute(`git checkout -- "${file}"`);
-        },
-        create: notSignificant,
-        retrieve: async function (file) {
-            await execute(`git diff HEAD "${file}"`);
-        },
-        update: notSignificant,
-    },
+    commit: require('./commit'),
+    modified: require('./modified'),
     branch: require('./branch'),
     rbranch: require('./rbranch'),
     remote: {
