@@ -50,7 +50,7 @@ const resources = {
         help: log(`
   DESCRIPTION
   
-    Manage git branches
+    Manage git branches, only the local branches.
 
   USAGE
 
@@ -75,6 +75,9 @@ const resources = {
         async create(name) {
             await execute(`git branch -- "${name}"`);
         },
+        async retrieve(name) {
+            await execute(`git rev-parse "${name}"`);
+        },
         async select(name) {
             await execute(`git checkout "${name}"`);
         },
@@ -84,6 +87,21 @@ const resources = {
         async delete(name) {
             await execute(`git branch -d -- "${name}"`);
         }
+    },
+    rbranch: {
+        help: log(`
+        DESCRIPTION
+        
+          Manage git remote branches.
+      
+        USAGE
+
+          a rbranch list
+            git branch -r
+
+`),
+        list: 'git branch -r',
+
     },
     remote: {
         list: 'git remote -v',
@@ -113,7 +131,7 @@ const resources = {
             } catch (e) {
                 console.error(`Error: ${name} is not a git repository`);
             }
-            
+
         },
     },
     tag: {
