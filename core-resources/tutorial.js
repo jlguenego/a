@@ -7,9 +7,7 @@ There is 3 parts.
 To access one of them, please type a long or abbreviated form:
 
 a .tutorial retrieve 1
-
 a .tuto ret 2
-
 a .t r 3
 
 `),
