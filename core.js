@@ -76,7 +76,7 @@ function printVerboseInfo(program, resources, resource, verb, args) {
     if (program.config.verbose !== 'true' || verb === 'help') {
         return;
     }
-    console.log('\n\n\n-- verbose info start');
+    console.log('\n\n\n--> verbose info start');
     console.log('Command executed: a', resource, verb, ...args);
     console.log('To get help: a', resource, 'help');
 
@@ -87,7 +87,7 @@ function printVerboseInfo(program, resources, resource, verb, args) {
     if (otherVerbs.length > 0) {
         console.log('Other verbs: ' + otherVerbs.join(' | ') + '\n');
     }
-    console.log('-- verbose info end');
+    console.log('--> verbose info end');
 }
 
 function printDefaultHelp(program, resources, resource, verb, args) {
