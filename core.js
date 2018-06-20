@@ -7,9 +7,16 @@ function buildResources() {
         const config = getConfig();
         const resources = {};
         const plugins = config.modes[config.currentMode];
+
         plugins.forEach(key => {
-            Object.assign(resources, require(config.plugins[key]));
+            try {
+                Object.assign(resources, require(config.plugins[key]));
+            } catch (e) { 
+                console.error(`problem trying to load plugin ${key} ${config.plugins[key]}`, e);
+            }
         });
+
+
         Object.assign(resources, require('./core-resources'));
         return resources;
     } catch (e) {
@@ -50,10 +57,10 @@ async function handle(program, resource, verb, args) {
             if (ia === ib) {
                 if (ia < crudle.length) {
                     return 0;
-                } 
-                    return a < b ? -1 : a > b ? 1 : 0
-                
-            } 
+                }
+                return a < b ? -1 : a > b ? 1 : 0
+
+            }
             return ia < ib ? -1 : 1;
         }).forEach(verb => console.log(`a ${resource} ${verb}`));
         return;

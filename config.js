@@ -7,7 +7,7 @@ const configFilename = path.resolve(homedir, './.aconfig.json');
 function initConfig() {
     const config = {
         plugins: {
-            git: './git-resources.js',
+            git: './git-resources/main.js',
             docker: './docker-resources.js',
         },
         currentMode: 'git',
