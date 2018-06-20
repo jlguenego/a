@@ -63,6 +63,11 @@ You can list the modes by doing:
 $> a -m
 ```
 
+To come back to the `git` mode:
+```
+$> a -m git
+```
+
 The `-m` options is in fact an alias on a core resource called `.mode`.
 
 All the core resources are hidden but always accessible. They all with a dot character ".".
@@ -90,6 +95,21 @@ where:
 - `<resource>` is an abbreviated or fullname of a resource,
 - `<verb>` is an abbreviated or fullname of a verb,
 - `<args...> are arguments sometimes needed given the resource and verb.
+
+## Verbose info
+
+To switch on verbose info:
+```
+$> a .config set verbose true
+```
+
+The tool will print more info to help you when using it.
+
+To switch off verbose info:
+```
+$> a .config set verbose false
+```
+
 
 # Tutorial
 
