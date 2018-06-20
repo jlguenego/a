@@ -24,7 +24,7 @@ with <title> below:
 TUTORIAL Part #1 : Mode
 =======================
 
-1) List the mode
+1) List the modes
 $> a -m
 
 In fact this is a shortcut to the command:
