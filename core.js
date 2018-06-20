@@ -84,7 +84,7 @@ function parseCommand(str, args) {
 }
 
 function printBeginnerInfo(program, resources, resource, verb, args) {
-    if (program.config.beginner !== true || verb === 'help') {
+    if (getConfig().beginner !== true || verb === 'help') {
         return;
     }
 
