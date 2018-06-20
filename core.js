@@ -69,23 +69,21 @@ async function handle(program, resource, verb, args) {
         console.log(`a ${resource} ${verb}: no implementation.`);
         process.exit(1);
     }
-    const spec = resources[resource][verb];
-    if (typeof spec === 'string') {
-        const cmd = spec + ' ' + args.join(' ');
-        if (program.simulation) {
-            console.log(cmd);
-            return;
-        }
-        await execute(cmd);
-        return;
+    let procedure;
+    if (typeof resources[resource][verb] === 'string') {
+        procedure = async function() {
+            const cmd = resources[resource][verb] + args.map(a => `"${a}"`).join(' ');
+            await execute(cmd);
+        };
+    } else {
+        procedure = resources[resource][verb];
     }
-    // spec should be a async function.
     if (program.simulation) {
-        console.log(spec.toString());
+        console.log(resources[resource][verb].toString());
         console.log(`args: ${JSON.stringify(args)}`);
         return;
     }
-    await spec(...args);
+    await procedure(...args);
 }
 
 /**

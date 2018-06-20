@@ -27,6 +27,9 @@ module.exports = {
 `),
     list: 'git branch',
     async create(name) {
+        if (!name) {
+            throw new Error('need a name');
+        }
         await execute(`git branch -- "${name}"`);
     },
     async retrieve(name) {

@@ -1,9 +1,6 @@
 const { handle, execute, notSignificant, log } = require('../core');
-const fs = require('fs');
-const rimraf = require('rimraf');
-const util = require('util');
 
-const resources = {
+module.exports = {
     commit: require('./commit'),
     modified: require('./modified'),
     branch: require('./branch'),
@@ -21,5 +18,3 @@ const resources = {
         },
     }
 };
-
-module.exports = resources;
