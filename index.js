@@ -47,13 +47,8 @@ if (program.core) {
 	defaultResource = '.hidden-resource';
 }
 
-// console.log(program);
-
-
-
 let [r = defaultResource, v = 'list', ...args] = program.rawArgs.slice(program.simulation || program.core ? 3 : 2);
 const resource = disambiguate('resource', r, program.resources);
 const verb = manageVerbSynonym(program, resource, v);
-
 
 handle(program, resource, verb, args);
