@@ -78,21 +78,12 @@ async function handle(program, resource, verb, args) {
 }
 
 function printHateoas(resources, resource) {
-    Object.keys(resources[resource]).sort((a, b) => {
-        const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
-        let ia = crudle.indexOf(a);
-        let ib = crudle.indexOf(b);
-        ia = (ia === -1) ? crudle.length : ia;
-        ib = (ib === -1) ? crudle.length : ib;
-        if (ia === ib) {
-            if (ia < crudle.length) {
-                return 0;
-            }
-            return a < b ? -1 : a > b ? 1 : 0
-
-        }
-        return ia < ib ? -1 : 1;
-    }).forEach(verb => console.log(`a ${resource} ${verb}`));
+    const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
+    const crudVerbs = crudle.filter(v => Object.keys(resources[resource]).includes(v));
+    const otherVerbs = Object.keys(resources[resource]).filter(v => !crudle.includes(v)).sort();
+    crudVerbs.forEach(verb => console.log(`a ${resource} ${verb}`));
+    console.log();
+    otherVerbs.forEach(verb => console.log(`a ${resource} ${verb}`));
 }
 
 /**
