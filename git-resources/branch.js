@@ -41,5 +41,5 @@ module.exports = {
     update: 'git branch -m <oldname> <newname>',
     delete: 'git branch -d -- <name>',
     merge: 'git merge <name>',
-    push: 'git push [remote=origin]',
+    push: 'git push [remote=origin] [branch=]',
 };
