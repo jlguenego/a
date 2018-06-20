@@ -112,7 +112,7 @@ $> a c c
 $> a b s master
 $> a b m titi
 
-5) Congratulations! That is it!
+6) Congratulations! That is it!
 `);
         }
 
