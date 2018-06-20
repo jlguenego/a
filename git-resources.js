@@ -10,10 +10,10 @@ const resources = {
             if (!commitId) {
                 throw new Error('Cannot retrieve tag without commitId');
             }
-            await execute(`git show "${commitId}"`);
+            await execute(`git show --format=fuller "${commitId}"`);
         },
         create: async function (message = 'ok') {
-            await execute('git add *');
+            await execute('git add .');
             await execute(`git commit -m "${message}"`);
         },
         delete: async function (id, message = 'commit') {
