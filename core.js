@@ -34,7 +34,7 @@ async function execute(cmd) {
     } catch (e) {
         console.log(e.stdout);
         console.error(e.stderr);
-        throw new Error('Stop!!!');
+        process.exit(e.code);
     }
 }
 
@@ -59,7 +59,11 @@ async function handle(program, resource, verb, args) {
     if (typeof resources[resource][verb] === 'string') {
         procedure = async function () {
             const cmd = parseCommand(resources[resource][verb], args);
-            await execute(cmd);
+            try {
+                await execute(cmd);
+            } catch (e) {
+                console.log(e);
+            }
         };
     } else {
         procedure = resources[resource][verb];
