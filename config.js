@@ -38,4 +38,5 @@ module.exports = {
     getConfig,
     setConfig,
     initConfig,
+    configFilename,
 };
