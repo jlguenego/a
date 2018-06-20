@@ -9,8 +9,11 @@ module.exports = {
         await execute(`git show --format=fuller "${commitId}"`);
     },
     create: async function (message = 'commit') {
-        await execute('git add .');
-        await execute(`git commit -m "${message}"`);
+        try {
+            await execute('git add .');
+            await execute(`git commit -m "${message}"`);
+        } catch (e) {}
+        
     },
     delete: async function (id, message = 'commit') {
         if (id === 'last') {
