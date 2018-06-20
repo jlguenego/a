@@ -1,7 +1,7 @@
 const { log } = require('../core');
 const { getConfig, setConfig, configFilename, initConfig } = require('../config');
 
-module.exports = {
+const config = {
     list: () => {
         console.log(`
 Config file location: ${configFilename}
@@ -26,3 +26,8 @@ ${JSON.stringify(getConfig(), null, 4)}
         setConfig(config);
     },
 };
+
+config.retrieve = config.get;
+config.update = config.set;
+
+module.exports = config;

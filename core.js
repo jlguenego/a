@@ -77,18 +77,23 @@ function printVerboseInfo(program, resources, resource, verb, args) {
     if (program.config.verbose !== 'true' || verb === 'help') {
         return;
     }
-    console.log('\n\n\n--> verbose info start');
-    console.log('Command executed: a', resource, verb, ...args);
-    console.log('To get help: a', resource, 'help');
 
     const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
     const crudVerbs = crudle.filter(v => Object.keys(resources[resource]).includes(v));
     const otherVerbs = Object.keys(resources[resource]).filter(v => !crudle.includes(v)).sort();
-    console.log('REST verbs: ' + crudVerbs.join(' | ') + '\n');
-    if (otherVerbs.length > 0) {
-        console.log('Other verbs: ' + otherVerbs.join(' | ') + '\n');
-    }
-    console.log('--> verbose info end');
+
+    console.log(`
+
+
+----------
+ALIAS INFO
+Command executed: a ${resource} ${verb} ${args.join(' ')}
+Getting help: a ${resource} help
+
+REST verbs: ${crudVerbs.join(' | ')}
+
+${otherVerbs.length > 0 ? otherVerbs.join(' | ') : 'No other verbs.'}
+`);
 }
 
 function printDefaultHelp(program, resources, resource, verb, args) {
