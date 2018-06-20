@@ -5,6 +5,7 @@ module.exports = {
     DESCRIPTION
     
       Manage git remote branches.
+      Warning: Limitation to origin remote.
   
     USAGE
 
@@ -13,13 +14,15 @@ module.exports = {
         
       a rbranch retrieve <rbranch>
         git rev-parse <rbranch>
-        
+
       a rbranch delete <rbranch>
         git push -d origin <rbranch>
 
 `),
-    list: 'git rbranch --remotes',
+    list: 'git branch --remotes',
     retrieve: 'git rev-parse <rbranch>',
-    delete: 'git push -d origin <rbranch>'
+    delete: 'git push -d origin <rbranch>',
+
+    pull: 'git pull origin',
 
 };
