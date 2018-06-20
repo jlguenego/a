@@ -8,7 +8,7 @@ module.exports = {
         }
         await execute(`git show --format=fuller "${commitId}"`);
     },
-    create: async function (message = 'ok') {
+    create: async function (message = 'commit') {
         await execute('git add .');
         await execute(`git commit -m "${message}"`);
     },
