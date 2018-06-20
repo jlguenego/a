@@ -46,23 +46,9 @@ async function handle(program, resource, verb, args) {
         console.log(`a ${resource} : resource not found.`);
         process.exit(1);
     }
-    if (verb === 'help' && !resources[resource][verb]) {
+    if (verb === 'help' && !resources[resource].help) {
         console.log(`Implemented verb for ${resource}:`);
-        Object.keys(resources[resource]).sort((a, b) => {
-            const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
-            let ia = crudle.indexOf(a);
-            let ib = crudle.indexOf(b);
-            ia = (ia === -1) ? crudle.length : ia;
-            ib = (ib === -1) ? crudle.length : ib;
-            if (ia === ib) {
-                if (ia < crudle.length) {
-                    return 0;
-                }
-                return a < b ? -1 : a > b ? 1 : 0
-
-            }
-            return ia < ib ? -1 : 1;
-        }).forEach(verb => console.log(`a ${resource} ${verb}`));
+        printHateoas(resources, resource);
         return;
     }
     if (!resources[resource][verb]) {
@@ -84,6 +70,29 @@ async function handle(program, resource, verb, args) {
         return;
     }
     await procedure(...args);
+    if (verb === 'list') {
+        // hateoas
+        console.log('links:')
+        printHateoas(resources, resource);
+    }
+}
+
+function printHateoas(resources, resource) {
+    Object.keys(resources[resource]).sort((a, b) => {
+        const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
+        let ia = crudle.indexOf(a);
+        let ib = crudle.indexOf(b);
+        ia = (ia === -1) ? crudle.length : ia;
+        ib = (ib === -1) ? crudle.length : ib;
+        if (ia === ib) {
+            if (ia < crudle.length) {
+                return 0;
+            }
+            return a < b ? -1 : a > b ? 1 : 0
+
+        }
+        return ia < ib ? -1 : 1;
+    }).forEach(verb => console.log(`a ${resource} ${verb}`));
 }
 
 /**

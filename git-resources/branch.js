@@ -17,7 +17,7 @@ module.exports = {
     a branch                 
         List local git branches: git branch
 
-
+    Other verbs:
 
     a branch select <name>
         Select the new current branch: git checkout <name>
