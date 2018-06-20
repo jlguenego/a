@@ -130,7 +130,7 @@ function printDefaultHelp(program, resources, resource, verb, args) {
  * @param {*} verb
  * @returns
  */
-function manageVerbSynonym(verb) {
+function manageVerbSynonym(program, resource, verb) {
     const verbMatrix = [
         ['create'],
         ['retrieve'],
@@ -146,7 +146,7 @@ function manageVerbSynonym(verb) {
         ['get'],
         ['set']
     ];
-    const verbs = verbMatrix.reduce((acc, n) => acc.concat(n), []);
+    const verbs = verbMatrix.reduce((acc, n) => acc.concat(n), []).filter(v => Object.keys(program.resources[resource]).includes(v));
     verb = disambiguate('verb', verb, verbs);
     verb = verbMatrix.reduce((acc, n) => n.includes(acc) ? n[0] : acc, verb);
     return verb;

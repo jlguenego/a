@@ -30,16 +30,8 @@ module.exports = {
 `),
     list: 'git branch',
     create: 'git branch -- <name>',
-    async retrieve(name) {
-        await execute(`git rev-parse "${name}"`);
-    },
-    async select(name) {
-        await execute(`git checkout "${name}"`);
-    },
-    async update(oldName, newName) {
-        await execute(`git branch -m "${oldName}" "${newName}"`);
-    },
-    async delete(name) {
-        await execute(`git branch -d -- "${name}"`);
-    }
+    retrieve: 'git rev-parse <name>',
+    select: 'git checkout <name>',
+    update: 'git branch -m <oldname> <newname>',
+    delete: 'git branch -d -- <name>',
 };
