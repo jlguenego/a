@@ -63,7 +63,7 @@ You can list the modes by doing:
 $> a -m
 ```
 
-The `-m` options is in fact an alias on a core hidden resource called `.mode`.
+The `-m` options is in fact an alias on a core resource called `.mode`.
 
 All the core resources are hidden but always accessible. They all with a dot character ".".
 You can list them by doing:
