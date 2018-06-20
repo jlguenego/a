@@ -5,7 +5,8 @@ const resources = {
     '.resource': {
         list: (mode = 'available') => {
             const resources = Object.keys(buildResources());
-            list(`Current mode: ${getConfig().currentMode}`, resources.filter(r => !r.startsWith('.')));
+            list(`List of resources (mode ${getConfig().currentMode}):
+`, resources.filter(r => !r.startsWith('.')));
         },
     },
     '.plugin': {

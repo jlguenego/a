@@ -14,7 +14,6 @@ ${JSON.stringify(getConfig(), null, 4)}
     empty: () => {
         console.log('reset the config file to its default.')
         initConfig();
-        resources['.config'].list();
     },
     get: (name) => {
         const config = getConfig();
@@ -22,9 +21,20 @@ ${JSON.stringify(getConfig(), null, 4)}
     },
     set: (name, value) => {
         const config = getConfig();
+        if (value === "false") {
+            value = false;
+        }
+        if (value === "true") {
+            value = true;
+        }
         config[name] = value;
         setConfig(config);
     },
+    delete: (name) => {
+        const config = getConfig();
+        delete config[name];
+        setConfig(config);
+    }
 };
 
 config.retrieve = config.get;

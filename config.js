@@ -16,7 +16,8 @@ function initConfig() {
             'git': ['git'],
             'docker': ['docker'],
             'all': ['git', 'docker'],
-        }
+        },
+        beginner: true
     };
     setConfig(config);
     return config;

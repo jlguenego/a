@@ -70,11 +70,11 @@ async function handle(program, resource, verb, args) {
         return;
     }
     await procedure(...args);
-    printVerboseInfo(program, resources, resource, verb, args);
+    printBeginnerInfo(program, resources, resource, verb, args);
 }
 
-function printVerboseInfo(program, resources, resource, verb, args) {
-    if (program.config.verbose !== 'true' || verb === 'help') {
+function printBeginnerInfo(program, resources, resource, verb, args) {
+    if (program.config.beginner !== true || verb === 'help') {
         return;
     }
 
@@ -85,14 +85,22 @@ function printVerboseInfo(program, resources, resource, verb, args) {
     console.log(`
 
 
-----------
-ALIAS INFO
-Command executed: a ${resource} ${verb} ${args.join(' ')}
-Getting help: a ${resource} help
-
-REST verbs: ${crudVerbs.join(' | ')}
-
-${otherVerbs.length > 0 ? otherVerbs.join(' | ') : 'No other verbs.'}
++-------------
+|BEGINNER INFO
++-------------
+|Command executed: a ${resource} ${verb} ${args.join(' ')}
+|  See the result above.
+|Getting help: a ${resource} help
+|Using <verb>: a ${resource} <verb>
+|
+|REST verbs: ${crudVerbs.join(' | ')}
+|
+|${otherVerbs.length > 0 ? otherVerbs.join(' | ') : 'No other verbs.'}
+|
++-------------
+|To switch off beginner info: 
+|  $> a .config set beginner false
++-------------
 `);
 }
 
