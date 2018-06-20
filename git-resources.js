@@ -6,12 +6,17 @@ const util = require('util');
 const resources = {
     commit: {
         list: 'git log --reverse --pretty=oneline',
-        retrieve: 'git show',
+        async retrieve(commitId) {
+            if (!commitId) {
+                throw new Error('Cannot retrieve tag without commitId');
+            }
+            await execute(`git show "${commitId}"`);
+        },
         create: async function (message = 'ok') {
             await execute('git add *');
             await execute(`git commit -m "${message}"`);
         },
-        delete: async function (id, message = 'ok') {
+        delete: async function (id, message = 'commit') {
             if (id === 'last') {
                 // remove last commit.
                 await execute('git reset --hard HEAD~1');
