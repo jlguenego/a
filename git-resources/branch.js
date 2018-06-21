@@ -79,7 +79,6 @@ module.exports = {
     },
     retrieve: 'git rev-parse <name>',
 
-
     delete: async (name) => {
         if (isRemote(name)) {
             const [remote, branch] = name.split('/');
