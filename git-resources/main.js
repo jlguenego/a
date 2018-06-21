@@ -4,7 +4,6 @@ module.exports = {
     commit: require('./commit'),
     modified: require('./modified'),
     branch: require('./branch'),
-    rbranch: require('./rbranch'),
     remote: require('./remote'),
     repository: require('./repository'),
     tag: require('./tag'),
