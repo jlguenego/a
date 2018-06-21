@@ -12,6 +12,12 @@ async function getLocalBranches() {
     return array;
 }
 
+async function getCurrentBranch() {
+    const { stdout } = await exec('git rev-parse --abbrev-ref HEAD');
+    const array = stdout.replace(/\* /, '').split(/\r?\n/).map(l => l.trim()).filter(line => line !== '');
+    return array[0];
+}
+
 module.exports = {
     help: log(`
   DESCRIPTION
@@ -47,7 +53,9 @@ module.exports = {
         Merge a git branch to the current one: git merge <name>
     
     a branch push
-        Push the current git branch to the remote: git push
+        Copy a branch1 to another branch2
+        By default branch1 is the selected local branch.
+        By default branch2 is the tracked remote branch of the selected local branch.
 `),
     list: async () => {
         console.log(`Local branches: `);
@@ -84,11 +92,38 @@ module.exports = {
     select: 'git checkout <localbranch>',
     rename: async (oldname, newname) => {
         if (isRemote(oldname) || isRemote(newname)) {
-            console.error('Politic choice: not implemented for remote branch. Please pull to local branch and push to the new one.');
+            console.error('Sorry, rename work only for local branches.');
             process.exit(1);
         }
         await execute('git branch -m <oldname> <newname>');
     },
     merge: 'git merge <name>',
-    push: 'git push',
+    push: async (branch1, branch2) => {
+        const currentBranch = await getCurrentBranch();
+        console.log('currentBranch', currentBranch);
+        if (branch1 === undefined) {
+            await execute('git push');
+            return;
+        }
+        if (isRemote(branch1)) {
+            if (branch2 === undefined) {
+            
+                await execute();
+                return;
+            }
+            await execute();
+            return;
+        }
+        // branch1 is local
+        if (branch2 === undefined) {
+            await execute(`git checkout ${branch1}`);
+            await execute('git push');
+            await execute(`git checkout ${currentBranch}`);
+            return;
+        }
+        await execute();
+        return;
+        
+    },
+    
 };
