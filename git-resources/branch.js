@@ -108,7 +108,7 @@ module.exports = {
         if (isRemote(branch1)) {
             const [remote1, name1] = branch1.split('/');
             if (branch2 === undefined) {
-                await execute('git pull ${remote1} ${name1}');
+                await execute(`git pull ${remote1} ${name1}`);
                 return;
             }
             await execute();
