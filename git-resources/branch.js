@@ -64,20 +64,29 @@ module.exports = {
             }
             // if local branch does not exist with the same name, throw an error (political choice).
             console.error(`Politic choice: you must have a local branch with the same name.`);
-            return;
+            process.exit(1);
         }
         await execute(`git branch -- ${name}`)
     },
     retrieve: 'git rev-parse <name>',
-    select: 'git checkout <name>',
-    update: 'git branch -m <oldname> <newname>',
+    
+    
     delete: async (name) => {
         if (isRemote(name)) {
             const [ remote, branch ] = name.split('/');
             await execute(`git push -d ${remote} ${branch}`);
             return;
         }
-        await execute(`git branch -d -- ${name}`,)
+        await execute(`git branch -d -- ${name}`);
+    },
+
+    select: 'git checkout <localbranch>',
+    rename: async (oldname, newname) => {
+        if (isRemote(oldname) || isRemote(newname)) {
+            console.error('Politic choice: not implemented for remote branch. Please pull to local branch and push to the new one.');
+            process.exit(1);
+        }
+        await execute('git branch -m <oldname> <newname>');
     },
     merge: 'git merge <name>',
     push: 'git push [remote=origin] [branch=]',
