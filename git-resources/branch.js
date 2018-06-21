@@ -52,8 +52,8 @@ module.exports = {
     a branch merge <name>
         Merge a git branch to the current one: git merge <name>
     
-    a branch push
-        Copy a branch1 to another branch2
+    a branch push [branch1] [branch2]
+        Copy a branch1 to another branch2 (at least one branch must be local)
         By default branch1 is the selected local branch.
         By default branch2 is the tracked remote branch of the selected local branch.
 `),
