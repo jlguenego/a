@@ -41,12 +41,13 @@ module.exports = {
 
     a branch rename <oldname> <newname>
         Rename a git branch: git branch -m <oldname> <newname>
+        Limitation: work only with local branches.
     
     a branch merge <name>
         Merge a git branch to the current one: git merge <name>
     
     a branch push
-        Push the current git branch to the remote: git push [remote=origin]
+        Push the current git branch to the remote: git push
 `),
     list: async () => {
         console.log(`Local branches: `);
