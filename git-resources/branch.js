@@ -1,10 +1,24 @@
 const { execute, notSignificant, log } = require('../core');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
+function isRemote(name) {
+    return name.match(/\//);
+}
+
+async function getLocalBranches() {
+    const { stdout } = await exec('git branch');
+    const array = stdout.replace(/\* /, '').split(/\r?\n/).map(l => l.trim()).filter(line => line !== '');
+    return array;
+}
 
 module.exports = {
     help: log(`
   DESCRIPTION
   
-    Manage git branches, only the local branches.
+    Manage git branches, both local and remote branches.
+
+    Note: remote branch syntax: <remote>/<branch>
 
   USAGE
 
@@ -34,12 +48,37 @@ module.exports = {
     a branch push
         Push the current git branch to the remote: git push [remote=origin]
 `),
-    list: 'git branch -vv',
-    create: 'git branch -- <name>',
+    list: async () => {
+        console.log(`Local branches: `);
+        await execute('git branch -vv');
+        console.log(`Remote branches: `);
+        await execute('git branch --remotes');
+    },
+    create: async (name) => {
+        if (isRemote(name)) {
+            const [ remote, branch ] = name.split('/');
+            const localBranches = await getLocalBranches();
+            if (localBranches.includes(branch)) {
+                await execute(`git push -u ${remote} ${branch}`);
+                return;
+            }
+            // if local branch does not exist with the same name, throw an error (political choice).
+            console.error(`Politic choice: you must have a local branch with the same name.`);
+            return;
+        }
+        await execute(`git branch -- ${name}`)
+    },
     retrieve: 'git rev-parse <name>',
     select: 'git checkout <name>',
     update: 'git branch -m <oldname> <newname>',
-    delete: 'git branch -d -- <name>',
+    delete: async (name) => {
+        if (isRemote(name)) {
+            const [ remote, branch ] = name.split('/');
+            await execute(`git push -d ${remote} ${branch}`);
+            return;
+        }
+        await execute(`git branch -d -- ${name}`,)
+    },
     merge: 'git merge <name>',
     push: 'git push [remote=origin] [branch=]',
 };

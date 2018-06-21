@@ -30,6 +30,7 @@ async function execute(cmd) {
         const { stdout, stderr } = await exec(cmd);
         console.log(stdout);
         console.error(stderr);
+        return { stdout, stderr };
     } catch (e) {
         console.log(e.stdout);
         console.error(e.stderr);
