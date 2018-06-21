@@ -111,7 +111,7 @@ module.exports = {
                 await execute(`git pull ${remote1} ${name1}`);
                 return;
             }
-            await execute();
+            await execute(`git pull ${remote1} ${name1}:${branch2}`);
             return;
         }
         // branch1 is local
