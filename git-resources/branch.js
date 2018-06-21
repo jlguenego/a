@@ -89,5 +89,5 @@ module.exports = {
         await execute('git branch -m <oldname> <newname>');
     },
     merge: 'git merge <name>',
-    push: 'git push [remote=origin] [branch=]',
+    push: 'git push',
 };
