@@ -133,7 +133,7 @@ module.exports = {
             await execute(`git checkout ${branch2}`);
         }
         try {
-            await execute('git merge -q --no-edit ${branch1}');
+            await execute(`git merge -q --no-edit ${branch1}`);
         } catch (e) {
             await execute(`git merge --abort`);
         }
