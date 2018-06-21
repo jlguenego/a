@@ -85,7 +85,7 @@ module.exports = {
             await execute(`git push -d ${remote} ${branch}`);
             return;
         }
-        await execute(`git branch -d -- ${name}`);
+        await execute(`git branch -D -- ${name}`);
     },
 
     select: async (name) => {
