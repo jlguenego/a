@@ -100,7 +100,7 @@ module.exports = {
     merge: 'git merge <name>',
     push: async (branch1, branch2) => {
         const currentBranch = await getCurrentBranch();
-        console.log('currentBranch', currentBranch);
+        console.log('current branch is:', currentBranch);
         if (branch1 === undefined) {
             await execute('git push');
             return;
