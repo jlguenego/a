@@ -134,6 +134,9 @@ module.exports = {
             console.log(e.stdout);
             console.log(e.stderr);
             await execute(`git merge --abort`);
+            if (currentBranch !== branch2) {
+                await execute(`git checkout ${currentBranch}`);
+            }
             process.exit(e.code);
         }
 
