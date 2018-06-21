@@ -65,7 +65,7 @@ module.exports = {
     },
     create: async (name) => {
         if (isRemote(name)) {
-            const [ remote, branch ] = name.split('/');
+            const [remote, branch] = name.split('/');
             const localBranches = await getLocalBranches();
             if (localBranches.includes(branch)) {
                 await execute(`git push -u ${remote} ${branch}`);
@@ -78,11 +78,11 @@ module.exports = {
         await execute(`git branch -- ${name}`)
     },
     retrieve: 'git rev-parse <name>',
-    
-    
+
+
     delete: async (name) => {
         if (isRemote(name)) {
-            const [ remote, branch ] = name.split('/');
+            const [remote, branch] = name.split('/');
             await execute(`git push -d ${remote} ${branch}`);
             return;
         }
@@ -107,7 +107,7 @@ module.exports = {
         }
         if (isRemote(branch1)) {
             if (branch2 === undefined) {
-            
+
                 await execute();
                 return;
             }
@@ -121,9 +121,27 @@ module.exports = {
             await execute(`git checkout ${currentBranch}`);
             return;
         }
-        await execute();
+        if (isRemote(branch2)) {
+            const [remote2, name2] = branch2.split('/');
+
+            await execute(`git push ${remote2} ${branch1}:${name2}`);
+
+
+            return;
+        }
+        if (currentBranch !== branch2) {
+            await execute(`git checkout ${branch2}`);
+        }
+        try {
+            await execute('git merge -q --no-edit ${branch1}');
+        } catch (e) {
+            await execute(`git merge --abort`);
+        }
+
+        if (currentBranch !== branch2) {
+            await execute(`git checkout ${currentBranch}`);
+        }
         return;
-        
     },
-    
+
 };
