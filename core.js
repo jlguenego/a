@@ -24,7 +24,7 @@ function buildResources() {
     }
 }
 
-async function execute(cmd) {
+async function execute(cmd, exit = true) {
     try {
         console.log('executing:', cmd);
         const { stdout, stderr } = await exec(cmd);
@@ -34,7 +34,10 @@ async function execute(cmd) {
     } catch (e) {
         console.log(e.stdout);
         console.error(e.stderr);
-        process.exit(e.code);
+        if (exit) {
+            process.exit(e.code);
+        }
+        throw e;
     }
 }
 

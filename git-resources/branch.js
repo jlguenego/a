@@ -130,11 +130,7 @@ module.exports = {
             await execute(`git checkout ${branch2}`);
         }
         try {
-            const cmd = `git merge -q --no-edit ${branch1}`;
-            console.log('Executing:', cmd);
-            const { stdout, stderr } = await exec(cmd);
-            console.log(stdout);
-            console.log(stderr);
+            await execute(`git merge -q --no-edit ${branch1}`, false);
         } catch (e) {
             console.log(e.stdout);
             console.log(e.stderr);
