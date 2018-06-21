@@ -130,9 +130,14 @@ module.exports = {
             await execute(`git checkout ${branch2}`);
         }
         try {
-            await execute(`git merge -q --no-edit ${branch1}`);
+            const { stdout, stderr } = await exec(`git merge -q --no-edit ${branch1}`);
+            console.log(stdout);
+            console.log(stderr);
         } catch (e) {
+            console.log(e.stdout);
+            console.log(e.stderr);
             await execute(`git merge --abort`);
+            process.exit(e.code);
         }
 
         if (currentBranch !== branch2) {
