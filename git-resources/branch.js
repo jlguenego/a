@@ -42,7 +42,7 @@ module.exports = {
 
     Other verbs:
 
-    a branch select <name>
+    a branch select [name]
         Select the new current branch: git checkout <name>
 
     a branch rename <oldname> <newname>
@@ -88,7 +88,14 @@ module.exports = {
         await execute(`git branch -d -- ${name}`);
     },
 
-    select: 'git checkout <localbranch>',
+    select: async (name) => {
+        if (!name) {
+            await execute('git rev-parse --abbrev-ref HEAD');
+            return;
+        }
+        await execute(`git checkout ${name}`);
+    },
+    
     rename: async (oldname, newname) => {
         if (isRemote(oldname) || isRemote(newname)) {
             console.error('Sorry, rename work only for local branches.');
