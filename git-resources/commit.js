@@ -6,8 +6,9 @@ module.exports = {
         if (!commitId) {
             throw new Error('Cannot retrieve tag without commitId');
         }
+        const format = 'Commit: %H%nAuthor: %an%nEmail: %ae%nDate: %ad%nParent commit: %P%nSubject: %s';
         await execute(
-            `git show --format="Commit: %H%nAuthor: %an%nEmail: %ae%nDate: %ad%nParent commit: %P%nSubject: %s" "${commitId}"`);
+            `git show --format="${format}" "${commitId}"`);
     },
     create: async function (message = 'commit') {
         try {
