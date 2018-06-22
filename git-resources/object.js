@@ -17,9 +17,6 @@ module.exports = {
     a branch retrieve <name>
         Retrieve a git branch: git rev-parse <name>
 
-    a branch delete <name>
-        Delete a hash-objects from the database. (dangerous)
-
     a object                 
         List all objects
 `),
@@ -38,6 +35,6 @@ module.exports = {
         await execute(`git branch -- ${name}`)
     },
     retrieve: 'git cat-file -p <sha1>',
-
+    list: 'git rev-list --objects --all',
    
 };
