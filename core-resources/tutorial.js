@@ -64,17 +64,17 @@ $> a .c
 3) Check the help regarding the .config resource:
 a .c help
 
-4) Set a new value for the beginner property.
-false means no more beginner message
-$> a .c set beginner false
+4) Set a new value for the tips property.
+false means no more tips message
+$> a .c set tips false
 
-5) You should not see the beginner message
+5) You should not see the tips message
 $> a
 
-6) Put back the beginner property
-$> a .c set beginner true
+6) Put back the tips property
+$> a .c set tips true
 
-5) You should see the beginner message
+5) You should see the tips message
 $> a
 
  `);

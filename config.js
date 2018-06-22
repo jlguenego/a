@@ -12,12 +12,11 @@ function initConfig() {
         },
         currentMode: 'git',
         modes: {
-            // 'beginner': ['beginner'],
             'git': ['git'],
             'docker': ['docker'],
             'all': ['git', 'docker'],
         },
-        beginner: true
+        tips: true
     };
     setConfig(config);
     return config;

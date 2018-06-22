@@ -87,7 +87,7 @@ async function handle(program, resource, verb, args) {
         return;
     }
     await procedure(...args);
-    printBeginnerInfo(program, resources, resource, verb, args);
+    printTipsInfo(program, resources, resource, verb, args);
 }
 
 function parseCommand(str, args) {
@@ -109,8 +109,8 @@ function parseCommand(str, args) {
     return result;
 }
 
-function printBeginnerInfo(program, resources, resource, verb, args) {
-    if (getConfig().beginner !== true || verb === 'help') {
+function printTipsInfo(program, resources, resource, verb, args) {
+    if (getConfig().tips !== true || verb === 'help') {
         return;
     }
 
@@ -122,10 +122,9 @@ function printBeginnerInfo(program, resources, resource, verb, args) {
 
 
 +-------------
-|BEGINNER INFO
+|TIPS INFO
 +-------------
 |Command executed: a ${resource} ${verb} ${args.join(' ')}
-|  See the result above.
 |Getting help: a ${resource} help
 |Using <verb>: a ${resource} <verb>
 |
@@ -134,8 +133,8 @@ function printBeginnerInfo(program, resources, resource, verb, args) {
 |${otherVerbs.length > 0 ? otherVerbs.join(' | ') : 'No other verbs.'}
 |
 +-------------
-|To switch off beginner info: 
-|  $> a .config set beginner false
+|To switch off tips info: 
+|  $> a .config set tips false
 +-------------
 `);
 }
