@@ -66,8 +66,6 @@ async function handle(program, resource, verb, args) {
         } else {
             printDefaultHelpforVerb(program, resources, resource, verb, args);
         }
-    } else {
-        console.log(args[0], ' is not included')
     }
 
     let procedure;
