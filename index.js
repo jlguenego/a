@@ -19,12 +19,15 @@ program
 
     +----------------+
     |$> a .tutorial  |
-    +----------------+
+	+----------------+
+	
+  Tips
+
+	To set the tips on:
+	$> a .config set tips true
 
 License: ISC
-Author: Jean-Louis GUENEGO <jlguenego@gmail.com> (https://jlg-consulting.com)
-
-`)
+Author: Jean-Louis GUENEGO <jlguenego@gmail.com> (https://jlg-consulting.com)`)
 	})
 	.version(package.version, '-v, --version')
 	;
