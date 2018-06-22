@@ -175,6 +175,9 @@ function printDefaultHelpforVerb(program, resources, resource, verb, args) {
     ${resources[resource][verb].toString()}
       `);
     }
+    console.log(`
+  No custom help
+`);
     process.exit(0);
 }
 
@@ -206,6 +209,7 @@ function manageVerbSynonym(program, resource, verb) {
     const verbs = verbMatrix.reduce((acc, n) => acc.concat(n), []).filter(v => Object.keys(program.resources[resource]).includes(v));
     if (!verbs.includes('help')) {
         verbs.push('help');
+        verbs.push('-h');
     }
     verb = disambiguate('verb', verb, verbs);
     verb = verbMatrix.reduce((acc, n) => n.includes(acc) ? n[0] : acc, verb);
