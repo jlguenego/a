@@ -51,13 +51,25 @@ async function handle(program, resource, verb, args) {
         process.exit(1);
     }
     if (verb === 'help' && !resources[resource].help) {
-        printDefaultHelp(program, resources, resource, verb, args);
+        printDefaultHelp(program, resources, resource, args);
         return;
     }
     if (!resources[resource][verb]) {
         console.log(`a ${resource} ${verb}: no implementation.`);
         process.exit(1);
     }
+    // resource verb exist.
+    // check if verb take help itself.
+    if (['-h', '--help'].includes(args[0])) {
+        if (resources[resource][verb] instanceof Function && resources[resource][verb].includedHelp) {
+            // ok nothing to do.
+        } else {
+            printDefaultHelpforVerb(program, resources, resource, verb, args);
+        }
+    } else {
+        console.log(args[0], ' is not included')
+    }
+
     let procedure;
     if (typeof resources[resource][verb] === 'string') {
         procedure = async function () {
@@ -130,7 +142,7 @@ function printBeginnerInfo(program, resources, resource, verb, args) {
 `);
 }
 
-function printDefaultHelp(program, resources, resource, verb, args) {
+function printDefaultHelp(program, resources, resource, args) {
     console.log('Default help for resource', resource);
     const crudle = ['create', 'retrieve', 'update', 'delete', 'list', 'empty'];
     const crudVerbs = crudle.filter(v => Object.keys(resources[resource]).includes(v));
@@ -142,6 +154,31 @@ function printDefaultHelp(program, resources, resource, verb, args) {
         console.log('No other verb.');
     }
     console.log(`Syntax: a ${resource} <verb> ...`);
+}
+
+function printDefaultHelpforVerb(program, resources, resource, verb, args) {
+    if (['create', 'retrieve', 'update', 'delete'].includes(verb)) {
+        console.log(`
+  Usage: a ${resource} ${verb} <name>
+
+  ${verb.replace(/^(.)/, (match) => match.toUpperCase())} a ${resource}.
+`);
+    } else if (['list', 'empty'].includes(verb)) {
+        console.log(`
+        Usage: a ${resource} ${verb}
+      `);
+    } else {
+        console.log(`
+        Sorry, no help implemented for command: a ${resource} ${verb}.
+
+        But...
+
+        I can give you the source code that should be executed: 
+
+    ${resources[resource][verb].toString()}
+      `);
+    }
+    process.exit(0);
 }
 
 /**

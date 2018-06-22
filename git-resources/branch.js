@@ -108,6 +108,11 @@ module.exports = {
     },
     merge: 'git merge <name>',
     push: async (branch1, branch2) => {
+
+        // push the content of branch1 to branch2
+        // branch1/2 can both be local or remote
+        // so in git, we use push or pull according the case.
+        
         const currentBranch = await getCurrentBranch();
         console.log('current branch is:', currentBranch);
         if (branch1 === undefined) {
