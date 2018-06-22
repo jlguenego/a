@@ -8,15 +8,17 @@ function initConfig() {
     const config = {
         plugins: {
             git: './git-resources/main.js',
+            git2: './git-resources/git2.js',
             docker: './docker-resources.js',
         },
         currentMode: 'git',
         modes: {
             'git': ['git'],
+            'git-advanced': ['git', 'git2'],
             'docker': ['docker'],
             'all': ['git', 'docker'],
         },
-        tips: true
+        tips: false
     };
     setConfig(config);
     return config;
