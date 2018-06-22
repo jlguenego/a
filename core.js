@@ -170,6 +170,9 @@ function manageVerbSynonym(program, resource, verb) {
         ['pull'],
     ];
     const verbs = verbMatrix.reduce((acc, n) => acc.concat(n), []).filter(v => Object.keys(program.resources[resource]).includes(v));
+    if (!verbs.includes('help')) {
+        verbs.push('help');
+    }
     verb = disambiguate('verb', verb, verbs);
     verb = verbMatrix.reduce((acc, n) => n.includes(acc) ? n[0] : acc, verb);
     return verb;

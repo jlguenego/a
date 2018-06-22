@@ -1,4 +1,5 @@
 const { execute, notSignificant, log } = require('../core');
+const { Command } = require('commander');
 
 module.exports = {
     async list(filter) {
@@ -8,12 +9,24 @@ module.exports = {
         }
         await execute(`git tag`);
     },
-    async create(tagname, message = 'ok', commit = '') {
-        if (!tagname) {
-            throw new Error('Cannot create tag without tagname');
-        }
-        // annotated tag
-        await execute(`git tag -a "${tagname}" -m "${message}" ${commit}`);
+    // TODO: use commander to create both annotated and lightweight tag
+    async create(...args) {
+        const program = new Command();
+        program
+            .name('a tag create')
+            .usage('[options] <tagname>')
+            .description(`Create a tag, annotated or lightweight.`)
+
+            .option('-a, --annotated <message>', 'create a annotated tag.')
+            .option('-c, --commit <commit>', 'specify a commit if not current one.')
+            ;
+        
+        const myArgs = ['node', 'a-tag-create', ...args];
+        program.parse(myArgs);
+        const tagname = program.args[0];
+        const message = program.annotated ? `-m "${program.annotated}" `: '';
+        const commit = program.commit ? `-m "${program.commit}" `: '';
+        await execute(`git tag ${program.annotated ? '-a': ''} "${tagname}" ${message} ${commit}`);
     },
     async retrieve(tagname) {
         if (!tagname) {

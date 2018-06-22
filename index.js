@@ -48,6 +48,8 @@ if (program.core) {
 }
 
 let [r = defaultResource, v = 'list', ...args] = program.rawArgs.slice(program.simulation || program.core ? 3 : 2);
+console.log('resource', r);
+console.log('verb', v);
 const resource = disambiguate('resource', r, program.resources);
 const verb = manageVerbSynonym(program, resource, v);
 
