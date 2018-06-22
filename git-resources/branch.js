@@ -53,6 +53,9 @@ module.exports = {
         Merge a git branch to the current one: git merge <name>
     
     a branch push [branch1] [branch2]
+        Example: a branch push master origin/toto
+          Push the local master branch to the remote branch called toto on the origin repository.
+
         Copy a branch1 to another branch2 (at least one branch must be local)
         By default branch1 is the selected local branch.
         By default branch2 is the tracked remote branch of the selected local branch.
