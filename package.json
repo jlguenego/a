@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/jlguenego/a#readme",
   "bin": {
-    "a": "./index.js"
+    "a": "./main-cli.js"
   },
   "dependencies": {
     "commander": "^2.15.1",
