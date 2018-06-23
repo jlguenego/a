@@ -241,10 +241,6 @@ function list(prefix, array) {
     array.sort().forEach(i => console.log('a ' + i));
 }
 
-function notSignificant() {
-    console.log('Sorry. Not implemented. Because it is not significant for this resource.');
-}
-
 const log = str => () => console.log(str);
 
 module.exports = {
@@ -254,7 +250,6 @@ module.exports = {
     manageVerbSynonym,
     disambiguate,
     buildResources,
-    notSignificant,
     log,
     parseCommand,
 };

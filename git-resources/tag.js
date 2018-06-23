@@ -1,4 +1,4 @@
-const { execute, notSignificant, log } = require('../core');
+const { execute, log } = require('../core');
 const { Command } = require('commander');
 
 async function create(...args) {

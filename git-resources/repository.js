@@ -1,4 +1,4 @@
-const { execute, notSignificant, log } = require('../core');
+const { execute, log } = require('../core');
 const fs = require('fs');
 const util = require('util');
 const rimraf = require('rimraf');

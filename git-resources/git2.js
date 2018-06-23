@@ -1,4 +1,4 @@
-const { handle, execute, notSignificant, log } = require('../core');
+const { execute, log } = require('../core');
 
 module.exports = {
     object: require('./object'),

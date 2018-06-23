@@ -1,4 +1,4 @@
-const { execute, notSignificant, log } = require('../core');
+const { execute, log } = require('../core');
 
 module.exports = {
     list: 'git log --reverse --pretty=oneline',

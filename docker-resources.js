@@ -1,4 +1,4 @@
-const { handle, execute, notSignificant } = require('./core');
+const { execute } = require('./core');
 
 const resources = {
     image: {
@@ -28,11 +28,9 @@ const resources = {
         delete: async function (file) {
             await execute(`git checkout -- "${file}"`);
         },
-        create: notSignificant,
         retrieve: async function (file) {
             await execute(`git diff HEAD "${file}"`);
         },
-        update: notSignificant,
     },
 };
 

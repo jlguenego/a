@@ -1,4 +1,4 @@
-const { execute, notSignificant, log } = require('../core');
+const { execute, log } = require('..');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
