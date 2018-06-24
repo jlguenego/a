@@ -1,3 +1,4 @@
+const path = require('path');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 const { getConfig } = require('./config');
@@ -12,7 +13,12 @@ function buildResources() {
             try {
                 Object.assign(resources, require(config.plugins[key]));
             } catch (e) {
-                console.error(`problem trying to load plugin ${key} ${config.plugins[key]}`, e);
+                try {
+                    const prefix = config.globalModulesDir;
+                    Object.assign(resources, require(path.resolve(prefix, config.plugins[key]))({execute, log}));
+                } catch (e) {
+                    console.error(`problem trying to load plugin ${key} ${config.plugins[key]}`, e);
+                }
             }
         });
 

@@ -1,15 +1,24 @@
 const homedir = require('os').homedir();
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
+const { execSync } = require('child_process');
 
 const configFilename = path.resolve(homedir, './.aconfig.json');
 
+
+
 function initConfig() {
+
+    const stdout = execSync('npm root -g').toString().trim();
+    console.log('stdout', stdout);
+    const globalModulesDir = stdout;
     const config = {
+        globalModulesDir,
         plugins: {
             git: './git-resources/main.js',
             git2: './git-resources/git2.js',
-            docker: './docker-resources.js',
+            docker: 'docker-for-a',
         },
         currentMode: 'git',
         modes: {
