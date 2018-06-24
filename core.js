@@ -11,14 +11,15 @@ function buildResources() {
 
         plugins.forEach(key => {
             try {
-                Object.assign(resources, require(config.plugins[key]));
-            } catch (e) {
-                try {
-                    const prefix = config.globalModulesDir;
-                    Object.assign(resources, require(path.resolve(prefix, config.plugins[key]))({execute, log}));
-                } catch (e) {
-                    console.error(`problem trying to load plugin ${key} ${config.plugins[key]}`, e);
+                if (config.plugins[key].startsWith('.')) {
+                    Object.assign(resources, require(config.plugins[key])({ execute, log }));
+                    return;
                 }
+                const prefix = config.globalModulesDir;
+                Object.assign(resources, require(path.resolve(prefix, config.plugins[key]))({ execute, log }));
+
+            } catch (e) {
+                console.error(`problem trying to load plugin ${key} ${config.plugins[key]}`, e);
             }
         });
 

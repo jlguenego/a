@@ -1,5 +1,3 @@
-const { execute, log } = require('../core');
-
-module.exports = {
+module.exports = a => ({
     object: require('./object'),
-};
+});
