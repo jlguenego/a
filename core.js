@@ -100,6 +100,9 @@ async function handle(program, resource, verb, args) {
 function parseCommand(str, args) {
     let i = 0;
     const result = str.replace(/([<\[].*?[>\]])/g, (match) => {
+        if (match.startsWith('[...')) {
+            return args.join(' ');
+        }
         if (match.startsWith('<')) {
             return `"${args[i++]}"`;
         }
