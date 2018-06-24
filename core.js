@@ -104,6 +104,10 @@ function parseCommand(str, args) {
             return args.join(' ');
         }
         if (match.startsWith('<')) {
+            if (i >= args.length) {
+                console.error(`Argument missing, usage: ${str}`);
+                process.exit(1);
+            }
             return `"${args[i++]}"`;
         }
         if (match.startsWith('[')) {
